@@ -154,6 +154,10 @@
   <ItemGroup>
     <None Include="shader\basic_uniform.frag" />
     <None Include="shader\basic_uniform.vert" />
+    <None Include="shader\screen_quad.vert" />
+    <None Include="shader\shadow_map.frag" />
+    <None Include="shader\shadow_map.vert" />
+    <None Include="shader\simple_bloom.frag" />
     <None Include="shader\skybox.frag" />
     <None Include="shader\skybox.vert" />
   </ItemGroup>

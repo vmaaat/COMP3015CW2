@@ -11,48 +11,86 @@
 class SceneBasic_Uniform : public Scene
 {
 private:
-    // Main shader program for cat + floor
     GLSLProgram prog;
-
-    // Skybox shader
     GLSLProgram skyboxProg;
 
-    // Geometry / state
-    GLuint vaoHandle;
-    int    width, height;
+    // Shadow mapping
+    GLSLProgram shadowProg;
 
-    // Orbit camera parameters
-    float orbitYaw;
-    float orbitPitch;
-    float orbitRadius;
+    GLuint depthMapFBO;
+    GLuint depthMap;
+
+    const unsigned int SHADOW_WIDTH = 2048;
+    const unsigned int SHADOW_HEIGHT = 2048;
+
+    GLuint vaoHandle;
+    int width, height;
+
+    // Simple bloom / post-processing
+    GLSLProgram screenProg;
+
+    GLuint sceneFBO;
+    GLuint sceneColorTexture;
+    GLuint sceneDepthRBO;
+
+    GLuint screenQuadVAO;
+    GLuint screenQuadVBO;
+
+    bool bloomEnabled;
+    bool fogEnabled;
+    float fogAmount;
+
+    // Player camera
+    glm::vec3 cameraPos;
+    float cameraYaw;
+    float cameraPitch;
+
+    // Mouse look
+    bool firstMouse;
+    double lastMouseX;
+    double lastMouseY;
+
+    // Smooth walking
+    glm::vec3 playerVelocity;
+
+    // Sprint and camera bob
+    float bobTimer;
+    float cameraBobOffset;
+
+    // Stamina system
+    float stamina;
+    float maxStamina;
+    bool isSprintingNow;
+    float staminaBarAlpha;
+    float staminaBarVisibleTimer;
+
+    // Interaction system
+    bool lookingAtCat;
+    bool interactionMessageVisible;
+    float interactionMessageTimer;
 
     glm::mat4 rotationMatrix;
 
-    // Cat statue mesh data
-    std::vector<float> statuePositions;   // x, y, z per vertex
-    std::vector<float> statueTexcoords;   // u, v per vertex
-    std::vector<float> statueNormals;     // nx, ny, nz per vertex
-    int                 statueVertexCount;
+    std::vector<float> statuePositions;
+    std::vector<float> statueTexcoords;
+    std::vector<float> statueNormals;
+    int statueVertexCount;
 
-    // Textures
     GLuint statueTexture;
     GLuint planeTexture;
 
-    // Floor plane geometry
     GLuint planeVao;
     GLuint planeVboPos;
     GLuint planeVboTex;
     GLuint planeVboNorm;
-    int    planeVertexCount;
+    int planeVertexCount;
 
-    // Skybox geometry + texture
     GLuint skyboxVAO;
     GLuint skyboxVBO;
     GLuint skyboxTexture;
 
-    // Light state (for keyboard toggles)
-    bool      light1Enabled;
-    bool      light2Enabled;
+    bool light1Enabled;
+    bool light2Enabled;
     glm::vec3 light1ColorOriginal;
     glm::vec3 light2ColorOriginal;
 
@@ -65,8 +103,9 @@ public:
     void resize(int, int) override;
 
 private:
-    void   compile();
+    void compile();
     GLuint loadCubemap(const std::vector<std::string>& faces);
+    void renderSceneDepth(const glm::mat4& lightSpaceMatrix);
 };
 
-#endif // SCENEBASIC_UNIFORM_H
+#endif

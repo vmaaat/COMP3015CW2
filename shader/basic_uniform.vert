@@ -7,21 +7,21 @@ layout (location = 2) in vec3 VertexNormal;
 out vec2 TexCoord;
 out vec3 FragPos;
 out vec3 Normal;
+out vec4 FragPosLightSpace;
 
-uniform mat4 RotationMatrix; // we use this as our model matrix
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+uniform mat4 lightSpaceMatrix;
 
 void main()
 {
-    // World-space position of the fragment (really model-space, since we have no view/projection)
-    vec4 worldPos = RotationMatrix * vec4(VertexPosition, 1.0);
+    vec4 worldPos = model * vec4(VertexPosition, 1.0);
+
     FragPos = worldPos.xyz;
-
-    // Properly transform normals
-    mat3 normalMatrix = mat3(transpose(inverse(RotationMatrix)));
-    Normal = normalize(normalMatrix * VertexNormal);
-
+    Normal = normalize(mat3(transpose(inverse(model))) * VertexNormal);
     TexCoord = VertexTexCoord;
+    FragPosLightSpace = lightSpaceMatrix * worldPos;
 
-    // No projection matrix yet – treat model space as clip space
-    gl_Position = worldPos;
+    gl_Position = projection * view * worldPos;
 }

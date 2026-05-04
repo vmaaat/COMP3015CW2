@@ -56,6 +56,18 @@
     <None Include="shader\skybox.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shader\shadow_map.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\shadow_map.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\screen_quad.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\simple_bloom.frag">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="helper\scene.h">
