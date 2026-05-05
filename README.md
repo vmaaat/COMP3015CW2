@@ -61,8 +61,6 @@ External libraries used:
 
 ### Rendering Features
 
-# Lighting Model
-
 A per-fragment Blinn-Phong shading model is implemented.
 
 Each light contributes:
